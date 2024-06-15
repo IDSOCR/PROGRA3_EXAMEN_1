@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión de Reciclaje IDSO CR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1em 0;
+            text-align: center;
+        }
+
+        main {
+            margin: 2em auto;
+            padding: 1em;
+            max-width: 800px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 0.5em 0 0.2em;
+        }
+
+        input, button, select {
+            padding: 0.5em;
+            margin-bottom: 1em;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1em;
+        }
+
+        th, td {
+            padding: 0.5em;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        thead {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Sistema de Gestión de Reciclaje</h1>
+    </header>
+    <main>
+        <section id="registro">
+            <h2>Registrar Reciclaje</h2>
+            <form id="registro-form">
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" name="usuario" required>
+                
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo" name="correo" required>
+                
+                <label for="material">Material:</label>
+                <select id="material" name="material" required>
+                    <option value="Papel y Cartón">Papel y Cartón</option>
+                    <option value="Vidrio">Vidrio</option>
+                    <option value="Plásticos">Plásticos</option>
+                    <option value="Metales">Metales</option>
+                    <option value="Textiles">Textiles</option>
+                    <option value="Madera">Madera</option>
+                  <!-- Si ocupo agregar otro material <option value="X">X</option> --> 
+                </select>
+                
+                <label for="cantidad">Cantidad (kg):</label>
+                <input type="number" id="cantidad" name="cantidad" step="0.01" required>
+                
+                <button type="submit">Registrar</button>
+            </form>
+        </section>
+        
+        <section id="estadisticas">
+            <h2>Estadísticas de Reciclaje</h2>
+            <table id="estadisticas-table">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Correo</th>
+                        <th>Material</th>
+                        <th>Cantidad (kg)</th>
+                        <th>Fecha</th>
+                        <th>Puntos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- LOS DATOS DE LAS estadísticas se van a agregar aquí como no hemos visto lo de los cuadros se agrega por código -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <script>
+        document.getElementById('registro-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const usuario = document.getElementById('usuario').value;
+            const correo = document.getElementById('correo').value;
+            const material = document.getElementById('material').value;
+            const cantidad = parseFloat(document.getElementById('cantidad').value);
+            const fecha = new Date().toLocaleDateString();
+
+            const puntos = calcularPuntos(cantidad);
+
+            agregarFilaEstadisticas(usuario, correo, material, cantidad, fecha, puntos);
+
+            document.getElementById('registro-form').reset();
+        });
+
+        function calcularPuntos(cantidad) {
+            // Asigna puntos según la cantidad de material reciclado por cada kilo son 10 puntos.
+            return Math.round(cantidad * 10);
+        }
+
+        function agregarFilaEstadisticas(usuario, correo, material, cantidad, fecha, puntos) {
+            const tableBody = document.getElementById('estadisticas-table').getElementsByTagName('tbody')[0];
+            const newRow = tableBody.insertRow();
+
+            const cellUsuario = newRow.insertCell(0);
+            const cellCorreo = newRow.insertCell(1);
+            const cellMaterial = newRow.insertCell(2);
+            const cellCantidad = newRow.insertCell(3);
+            const cellFecha = newRow.insertCell(4);
+            const cellPuntos = newRow.insertCell(5);
+
+            cellUsuario.textContent = usuario;
+            cellCorreo.textContent = correo;
+            cellMaterial.textContent = material;
+            cellCantidad.textContent = cantidad.toFixed(2);
+            cellFecha.textContent = fecha;
+            cellPuntos.textContent = puntos;
+        }
+    </script>
+</body>
+<!-- Realizado por Ivar Solera Quesada 14-06-2024-->
+</html>
+
+
